@@ -1,0 +1,19 @@
+.block{
+    height: 100px;
+    width: 100px;
+    outline-style: solid;
+    vertical-align: top;
+    display: inline-block;
+    background-color: green;
+}
+
+.off{background-color:red;}
+
+p{
+    color: brown;
+}
+
+.side{
+    /* vertical-align:top; */
+    display:inline-block;
+}

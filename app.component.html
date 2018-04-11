@@ -1,0 +1,90 @@
+    <!--form (submit)="onSubmit()">  
+ <input type = 'text' name ='firstName'
+    required 
+    minlength="4" 
+    maxlength="24"
+    [(ngModel)]='user.firstName'
+    #firstName="ngModel"
+  />
+ 
+    {{firstName.errors | json}}
+    {{firstName.valid | json}}
+    <div *ngIf='!firstName.valid'>Error First Name</div>
+    <input type="submit">
+  </form>
+
+  {{user | json}} -->
+  <h1>Registration</h1>
+  <div *ngIf='bool' >Thank you for registering with us, {{users[users.length - 1].first_name}}</div>
+
+  <form (submit)="onSubmit()">
+        <!-- <input 
+          type="text" 
+          name="email" 
+          required 
+          minlength="4" 
+          maxlength="24"
+          [(ngModel)]="user.email"
+          #email='ngModel'
+        /> -->
+        <input 
+          type="text" 
+          name="first_name" 
+          required 
+          [(ngModel)]="user.first_name"
+          #first_name='ngModel'
+        />
+        <div class = 'side'*ngIf='!first_name.valid'>First name is Required</div><br>
+
+        <input 
+          type="text" 
+          name="last_name" 
+          required 
+          [(ngModel)]="user.last_name"
+          #last_name='ngModel'
+        />
+        <div class = 'side' *ngIf='!last_name.valid'>Last Name is Required</div><BR>
+
+            <input 
+            type="email" 
+            name="email" 
+            required 
+            pattern = ''
+            ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
+            [(ngModel)]="user.email"
+            #email='ngModel'
+          />
+           <!-- <div ng-messages="cardForm.email.$error">
+                <div ng-message="pattern">Please enter a valid email address!</div>
+              </div> -->
+        <div class = 'side' *ngIf='!email.valid'>Valid Email is Required</div><BR>
+        <!-- <div class = 'side' ng-messages="cardForm.email.$error" *ngIf='!email.valid'>Valid Email is Required</div><BR> -->
+        
+        <!-- <input 
+          type="text" 
+          name="password" 
+          required 
+          minlength="10" 
+          maxlength="24"
+          pattern="^([a-zA-Z0-9@*#]{8,15})$"
+          [(ngModel)]="user.password"
+          #password='ngModel'
+        /> -->
+        <input 
+        type="text" 
+        name="password" 
+        required 
+        minlength="16"
+        [(ngModel)]="user.password"
+        #password='ngModel'
+      />
+      <div class = 'side' *ngIf='!password.valid'>Password must be at least 16 characters longs</div><BR>
+
+
+        <div *ngIf='last_name.valid && first_name.valid && email.valid && password.valid'><input type="submit"></div>
+    </form>
+      {{user | json}} 
+      
+  
+  
+    
