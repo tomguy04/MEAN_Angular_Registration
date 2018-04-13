@@ -1,32 +1,14 @@
-    <!--form (submit)="onSubmit()">  
- <input type = 'text' name ='firstName'
-    required 
-    minlength="4" 
-    maxlength="24"
-    [(ngModel)]='user.firstName'
-    #firstName="ngModel"
-  />
  
-    {{firstName.errors | json}}
-    {{firstName.valid | json}}
-    <div *ngIf='!firstName.valid'>Error First Name</div>
-    <input type="submit">
-  </form>
-
-  {{user | json}} -->
   <h1>Registration</h1>
-  <div *ngIf='bool' >Thank you for registering with us, {{users[users.length - 1].first_name}}</div>
+  <div *ngIf='bool' >Thank you for registering with us, {{users[users.length - 1].first_name}}
+    We just send a confirmation email to {{users[users.length - 1].email}} and we will send all mail to 
+    {{users[users.length - 1].street_address}}, {{users[users.length - 1].unit}} {{users[users.length - 1].city}} 
+    {{users[users.length - 1].state}}
+  </div>
 
-  <form (submit)="onSubmit()">
-        <!-- <input 
-          type="text" 
-          name="email" 
-          required 
-          minlength="4" 
-          maxlength="24"
-          [(ngModel)]="user.email"
-          #email='ngModel'
-        /> -->
+  <form name = 'register' (submit)="onSubmit()" #form='ngForm'>
+   
+        First Name : 
         <input 
           type="text" 
           name="first_name" 
@@ -34,8 +16,11 @@
           [(ngModel)]="user.first_name"
           #first_name='ngModel'
         />
-        <div class = 'side'*ngIf='!first_name.valid'>First name is Required</div><br>
+        
+        <!-- <div class = 'side'*ngIf='!first_name.valid'>First name is Required</div><br> -->
+        <div class = 'side'*ngIf='first_name.touched && first_name.invalid'>First name is Required</div><br>
 
+        Last Name :
         <input 
           type="text" 
           name="last_name" 
@@ -45,43 +30,88 @@
         />
         <div class = 'side' *ngIf='!last_name.valid'>Last Name is Required</div><BR>
 
-            <input 
-            type="email" 
-            name="email" 
-            required 
-            pattern = ''
-            ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
-            [(ngModel)]="user.email"
-            #email='ngModel'
-          />
-           <!-- <div ng-messages="cardForm.email.$error">
-                <div ng-message="pattern">Please enter a valid email address!</div>
-              </div> -->
-        <div class = 'side' *ngIf='!email.valid'>Valid Email is Required</div><BR>
-        <!-- <div class = 'side' ng-messages="cardForm.email.$error" *ngIf='!email.valid'>Valid Email is Required</div><BR> -->
-        
-        <!-- <input 
-          type="text" 
-          name="password" 
-          required 
-          minlength="10" 
-          maxlength="24"
-          pattern="^([a-zA-Z0-9@*#]{8,15})$"
-          [(ngModel)]="user.password"
-          #password='ngModel'
-        /> -->
+        Email : 
         <input 
-        type="text" 
-        name="password" 
+        type="email" 
+        name="email" 
         required 
-        minlength="16"
-        [(ngModel)]="user.password"
-        #password='ngModel'
+        pattern = "\S+@\S+\.\S+"
+        [(ngModel)]="user.email"
+        #email='ngModel'
+          />
+   
+        <div class = 'side' *ngIf='!email.valid'>Valid Email is Required</div><BR>
+        <!-- {{email.errors|json}} -->
+
+      Password : 
+      <input 
+      type="text"  
+      name="password" 
+      required 
+      minlength="3"
+      [(ngModel)]="user.password"
+      #password='ngModel'
+       />
+      <div class = 'side' *ngIf='!password.valid'>Password must be at least 3 characters longs</div><BR>
+      
+      <!-- {{password.value}}<br> -->
+      Password Conf: 
+      <input 
+      type="text"   
+      name="confPassword" 
+      required 
+      pattern = {{password.value}}
+      [(ngModel)]="user.confPassword"
+      #confPassword='ngModel'
+       />
+      <div class = 'side' *ngIf='password.value != confPassword.value'>Passwords must match</div><br>
+      <!-- {{confPassword.valid}} -->
+
+      Street Address : 
+      <input 
+      type="text" 
+      name="street_address" 
+      required 
+      [(ngModel)]="user.street_address"
+      #street_address='ngModel'
       />
-      <div class = 'side' *ngIf='!password.valid'>Password must be at least 16 characters longs</div><BR>
+      <div class = 'side' *ngIf='!street_address.valid'>Street Address is Required</div><BR>
 
+      Unit : 
+      <input 
+      type="text" 
+      name="unit" 
+      [(ngModel)]="user.unit"
+      />
+      <br>
+    <!-- no vaildation needed for unit -->
 
-        <div *ngIf='last_name.valid && first_name.valid && email.valid && password.valid'><input type="submit"></div>
+      City : 
+      <input 
+      type="text" 
+      name="city" 
+      required 
+      [(ngModel)]="user.city"
+      #city='ngModel'
+      />
+      <div class = 'side' *ngIf='!city.valid'>City is Required</div><BR>
+      State : 
+       <select type = 'text' name="state" [(ngModel)]="user.state">
+        <option value="WA">WA</option>
+        <option value="NY">NY</option>
+        <option value="OR">OR</option>
+      </select>
+      <!-- <div class = 'side' *ngIf='!state.valid'>State is Required</div><BR> -->
+      <!-- no validation needed for state -->
+      <BR>
+      Are you feeling lucky? 
+      Yes <input type = "radio" name = "lucky" required [(ngModel)]='user.lucky' #lucky='ngModel' value = 'yes'/>
+      No <input type = "radio" name = "lucky" required [(ngModel)]='user.lucky' #lucky='ngModel' value = 'no'/>
+      
+      <div class = 'side' *ngIf='!lucky.valid'>Choosing your luck is required</div><br>
+
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+        <!-- <div *ngIf='last_name.valid && first_name.valid && email.valid && password.valid && street_address.valid'><input type="submit"></div> -->
     </form>
       {{user | json}} 
       
